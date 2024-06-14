@@ -1,53 +1,53 @@
 <template>
-  <div id="map" :style="{ height: '500px', width: '100%' }"></div>
+  <div id="mapDiv">
+    <l-map ref="map" v-model:zoom="zoom" :center="[lat, lon]">
+      <l-tile-layer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          layer-type="base"
+          name="OpenStreetMap"
+      ></l-tile-layer>
+      <l-marker :lat-lng="[lat,lon]" ></l-marker>
+    </l-map>
+  </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, watch } from 'vue';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
+import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 
-export default defineComponent({
-  name: 'Map',
-  props: {
-    latitude: {
-      type: Number,
-      required: true
-    },
-    longitude: {
-      type: Number,
-      required: true
-    }
+export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker
   },
-  setup(props) {
-    let myMap;
-
-    onMounted(() => {
-      myMap = L.map('map').setView([props.latitude, props.longitude], 13);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(myMap);
-
-      L.marker([props.latitude, props.longitude]).addTo(myMap)
-          .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-          .openPopup();
-    });
-
-    watch(() => [props.latitude, props.longitude], ([newLat, newLng]) => {
-      if (myMap) {
-        myMap.setView([newLat, newLng], 13);
-      }
-    });
-
-    return {};
-  }
-});
+  data() {
+    return {
+      zoom: 11,
+    };
+  },
+  props: {
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lon: {
+      type: Number,
+      required: true,
+    },
+  },
+};
 </script>
 
-<style scoped>
-#map {
-  height: 100%;
-  width: 100%;
-}
+<style>
+  #mapDiv {
+    height: 300px;
+    width: 300px;
+  }
+  @media (max-width: 768px) {
+    #mapDiv{
+      height:200px;
+      width:200px;
+    }
+  }
 </style>

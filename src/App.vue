@@ -1,5 +1,6 @@
 <script setup>
 import GetData from "@/components/GetData.vue";
+import 'leaflet/dist/leaflet.css';
 </script>
 
 <template>
@@ -10,14 +11,5 @@ import GetData from "@/components/GetData.vue";
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-main{
-  color: black;
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-}
 
 </style>

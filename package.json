@@ -11,12 +11,12 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
-    "leaflet": "^1.9.4",
-    "vue": "^3.4.27",
-    "vue-leaflet": "^0.1.0"
+    "vue": "^3.4.27"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
+    "leaflet": "^1.9.4",
     "vite": "^5.2.8"
   }
 }
