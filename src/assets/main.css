@@ -6,12 +6,54 @@
   padding: 2rem;
   font-weight: normal;
 }
-
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #282828;
+  color: #fff;
+  border: 2px solid purple;
+  margin: 5px;
 }
+.card *{
+  align-self: center;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+.btn{
+  padding: 3px;
+  border: 1px solid purple
+}
+#search{
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+    justify-content: start;
+  align-items: center;
+}
+.form-label{
+  margin-bottom: 0;
+  margin-right: 5px;
+  border: 2px solid purple;
+}
+input:focus{
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  outline: none;
+}
+#dataContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+flex-wrap: wrap;
+}
+*{
+  font-size: 1rem;
+}
+ul{
+  padding: 0;
+}
+
+
 
 

@@ -10,6 +10,9 @@ import Map from './Map.vue';
 let lat = ref(0);
 let lon = ref(0);
 
+
+
+
 function fetchData() {
   //reset data
   data.value = null;
@@ -19,7 +22,8 @@ function fetchData() {
         .then(d => {
           console.log(d);
           if(d !== null){
-            data.value = d;
+            data.value = d[0];
+            console.log(data.value.area)
           }else{
             console.log("Nic nebylo nalezeno");
             data = null;
@@ -49,41 +53,41 @@ onMounted(() => {
 <template>
   <div>
     <div id="search">
-      <input type="text" v-model="srch">
-      <button @click.prevent="fetchData">🔍</button>
+      <input type="text" v-model="srch" class="form-label">
+      <button @click.prevent="fetchData" type="button" class="btn">🔍</button>
     </div>
   </div>
-  <div id="dataContainer" v-if="data && data.length > 0">
-    <div id="innerContainer" v-for="country in data" :key="country.name">
-      <div class="card">
-        <h2>{{ country.name.official }}</h2>
-        <p>Hlavní město: {{ country.capital[0] }}</p>
-        <p>Počet obyvatel: {{ country.population }}</p>
-        <p>Rozloha: {{country.area}} km^2</p>
-        <img :src="country.flags.svg" alt="Vlajka" width="100">
-        <img class="coat" :src="country.coatOfArms.svg" alt="Znak armády" width="50">
+  <div id="dataContainer" v-if="data" >
+      <div class="card" style="width: 18rem;">
+        <h2>{{ data.name.official }}</h2>
+        <p>Capital: {{ data.capital[0] }}</p>
+        <p>Population: {{ data.population }}</p>
+        <p>Area: {{data.area}} km^2</p>
+        <img :src="data.flags.svg" alt="Vlajka" width="100">
+        <img class="coat" :src="data.coatOfArms.svg" alt="Znak armády" width="50">
         <div style="display: none">
-          {{lat = country.capitalInfo.latlng[0]}}
-          {{lon = country.capitalInfo.latlng[1]}}
+          {{lat = data.capitalInfo.latlng[0]}}
+          {{lon = data.capitalInfo.latlng[1]}}
         </div>
       </div>
-      <div class="card" v-if="country.borders">
-        <h2>Sousedé</h2>
-        <ul v-for="i in country.borders" :key="i">
+      <div class="card" v-if="data.borders" style="width: 18rem;">
+        <h2>Neighbours</h2>
+        <ul v-for="i in data.borders" :key="i">
           {{i}}
         </ul>
       </div>
-      <div class="card">
-        <h2>Měna</h2>
-        <p>{{Object.keys(country.currencies)[0].valueOf()}}</p>
+      <div class="card" style="width: 18rem;">
+        <h2>Currency</h2>
+        <p>{{Object.keys(data.currencies)[0].valueOf()}}</p>
         <div style="display: none">
-          {{currency = Object.keys(country.currencies)[0].toLocaleLowerCase()}}
+          {{currency = Object.keys(data.currencies)[0].toLocaleLowerCase()}}
         </div>
         <p>1 EUR = {{curr.eur[currency].toFixed(2)}} {{currency.toUpperCase()}}</p>
       </div>
 
-    </div>
-    <div class="card" id="map">
+    <div class="card" id="map" style="display: none">
+      {{lat}}
+      {{lon}}
       <Map :lat = lat :lon = lon />
     </div>
   </div>
@@ -98,67 +102,5 @@ onMounted(() => {
 *{
   border-radius: 4px;
 }
-input{
-  border: 2px solid purple;
-}
-button{
-  background-color: #282828;
-  border: 1px solid purple;
-  margin-left: 3px;
-}
-.card{
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 3rem;
-  color: white;
-  border: 2px solid purple;
-  padding: 5px;
-  margin-left: 0;
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-#search{
-  display: flex;
-  flex-direction: row;
-}
-#dataContainer{
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-#innerContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 0;
-}
-ul{
-  align-self: center;
-  padding: 0;
-}
-#map{
-  margin-left: 0px;
-}
-.coat{
-  margin-top: 1rem;
-}
-@media (max-width: 768px) {
-  .card {
-    width: 100%;
-  }
 
-  #dataContainer {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #map {
-    margin-left: 0px;
-  }
-}
 </style>
